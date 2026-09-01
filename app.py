@@ -153,7 +153,11 @@ def values(terms):
         for _,df0 in source_rows(src):
             df=df0
             c=col(df,terms)
-            if c: vals.update(df[c].dropna().astype(str).str.strip())
+      if c:
+    data = df[c]
+    if isinstance(data, pd.DataFrame):
+        data = data.iloc[:, 0]
+    vals.update(data.dropna().astype(str).str.strip())
     return sorted(v for v in vals if v and v.lower() not in {"nan","none"})
 
 f1,f2,f3,f4=st.columns(4)
